@@ -5,45 +5,11 @@ from sklearn.model_selection import train_test_split
 import itertools
 import operator
 
-#Awfull Hack to mute warning about 
-# convergence issues
 def warn(*args, **kwargs):
     pass
 import warnings
 warnings.warn = warn
 
-
-def generateOvRClassifier(classes):
-    o_vs_r_classifiers = {}
-    for elem in classes:
-        class_valid = [x_train[index] for index, value in enumerate(y_train) if value == elem]
-        class_invalid = [x_train[index] for index, value in enumerate(y_train) if value != elem]
-        value = [1] * len(class_valid) + [0] * len(class_invalid)
-        learn = class_valid + class_invalid
-        o_vs_r_classifiers["%d_rest" % elem] = LogisticRegression(multi_class='ovr',solver='lbfgs').fit(learn, value)
-    return o_vs_r_classifiers
-
-
-def predictOVR(test_values, o_vs_r_classifiers):
-    results = {}
-    i=0
-    for elem in test_values:
-        intern_result = {}
-        for name, classifier in o_vs_r_classifiers.items():
-            result = classifier.predict([elem[0]])
-            result_proba = classifier.predict_proba([elem[0]])
-            intern_result[name.split('_')[0]] = result_proba[0][1]
-        results[i] = intern_result
-        i+=1
-    correct = 0
-    for key, elem in results.items():
-        predicted = max(elem.items(), key=operator.itemgetter(1))[0]
-        value = test_values[key][1]
-        if int(predicted) == value:
-            correct +=1
-        print("Predicted %s and value was %s" %(predicted,value))
-    prct = (correct/len(results)*100)
-    print(f"The One versus Rest score a {prct} % precision score ")
 
 def generateOvOClassifier(classes):
     o_vs_o_classifiers = {}
@@ -92,5 +58,3 @@ if __name__ == "__main__":
     test_values = [(x_test[index],value) for index, value in enumerate(y_test)]
     # Launch the loop to predict elem in test values 
     predictOVO(test_values, o_vs_o_classifiers)
-    ovrclassifier = generateOvRClassifier(classes)
-    data = predictOVR(test_values,ovrclassifier)
