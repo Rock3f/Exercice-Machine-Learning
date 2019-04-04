@@ -1,61 +1,26 @@
 import matplotlib.pyplot as plt
-import numpy as np
+from sklearn.linear_model import LinearRegression
 
-def Hypothese(t0,t1,x) :
-    return t0 + t1 * x
+x=[[1], [3], [5], [9], [10], [11], [12], [13], [15], [18]]
+y=[[81682.0], [81720.0], [81760.0], [81826.0], [81844.0], [81864.0], [81881.0], [81900.0], [81933.0], [82003.0]]
 
-def AllSumHyp(array, t0, t1, isT1 = False) :
-    j = 0
-    allHyp = 0
-    while(j < len(array)) :
-        if isT1 :
-            allHyp += (Hypothese(t0, t1, array[j][0]) - array[j][1]) * array[j][0]
-        else :
-            allHyp += Hypothese(t0, t1, array[j][0]) - array[j][1]
-        j += 1
-       
-    return allHyp
+linearRegressor = LinearRegression()
+#Apprentissage du modèle
+reg= linearRegressor.fit(x, y)
 
-def DisplayGraph(array, x , y) :
-    m = 0
-    
-    plt.figure(1)
-    plt.subplot(211)
-    plt.scatter(x, y, color = 'red')
-    plt.plot(x, Hypothese(t0,t1,x), color = 'blue')
+#Prédiction de la valeur à J+1
+print("Valeur a J+1 :")
+print(linearRegressor.predict([[19]]))
 
-    plt.subplot(212)
-    plt.scatter(x, y - Hypothese(t0,t1,x), color = 'red')
-    plt.axhline(0, color='blue')
+#Affichage de la régression linéaire et des résidus
+plt.subplot(211)
+plt.scatter(x, y, color = 'red')
+plt.plot(x, linearRegressor.predict(x), color = 'blue')
+plt.title("Regression lineaire")
 
-    plt.show()
+plt.subplot(212)
+plt.scatter(x, y - linearRegressor.predict(x), color = 'red')
+plt.axhline(0, color='blue')
+plt.title("Residus")
 
-t0 = 3
-t1 = 6
-array = [[1, 81682],[3, 81720],[5, 81760],[9, 81826],[10, 81844],[11, 81864],[12, 81881],[13, 81900],[15, 81933],[18, 82003]]
-i = 1
-lastCost = 1
-
-while i < 20000000 :
-    print("Boucle %f" %i)
-    t0inter = t0 - (1/i) / len(array) * AllSumHyp(array,t0,t1)
-    t1inter = t1 - (1/i) / len(array) * AllSumHyp(array,t0,t1, True)
-    i += 1
-
-    cost = 1 / (2*len(array)) * (AllSumHyp(array, t0, t1)**2)
-    print("TETA0 %f" %t0inter)
-    print("TETA1 %f" %t1inter)
-    print("Cost %f" %round(cost,6))
-
-    if (cost < 0.08) & (round(cost,6) == round(lastCost,6)) :
-        i = 20000000
-    
-    lastCost = cost
-    t0 = t0inter
-    t1 = t1inter
-
-x=np.array([[1], [2], [3]])
-y=np.array([[7], [3], [1]])
-DisplayGraph(array,x ,y)
-
-print(Hypothese(t0,t1,19))
+plt.show()
