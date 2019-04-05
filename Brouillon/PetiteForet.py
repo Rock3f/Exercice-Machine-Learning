@@ -61,7 +61,7 @@ print('-------------------------------')
 # Instantiate model with 1000 decision trees
 rf = RandomForestRegressor(n_estimators = 1000, random_state = 42)
 # Train the model on training data
-rf.fit(train_features, train_labels);
+rf.fit(train_features, train_labels)
 
 # Use the forest's predict method on the test data
 predictions = rf.predict(test_features)
@@ -127,7 +127,9 @@ plt.bar(x_values, importances, orientation = 'vertical')
 # Tick labels for x axis
 plt.xticks(x_values, feature_list, rotation='vertical')
 # Axis labels and title
-plt.ylabel('Importance'); plt.xlabel('Variable'); plt.title('Variable Importances')
+plt.ylabel('Importance') 
+plt.xlabel('Variable')
+plt.title('Variable Importances')
 plt.show()
 
 # Dates of training values
@@ -153,9 +155,30 @@ predictions_data = pd.DataFrame(data = {'date': test_dates, 'prediction': predic
 plt.plot(true_data['date'], true_data['actual'], 'b-', label = 'actual')
 # Plot the predicted values
 plt.plot(predictions_data['date'], predictions_data['prediction'], 'ro', label = 'prediction')
-plt.xticks(rotation = '60'); 
+plt.xticks(rotation = '60') 
 plt.legend()
 # Graph labels
-plt.xlabel('Date'); plt.ylabel('Maximum Temperature (F)'); plt.title('Actual and Predicted Values');
+plt.xlabel('Date') 
+plt.ylabel('Maximum Temperature (F)') 
+plt.title('Actual and Predicted Values')
+
+plt.show()
+
+# Make the data accessible for plotting
+true_data['temp_1'] = features[:, feature_list.index('temp_1')]
+true_data['average'] = features[:, feature_list.index('average')]
+true_data['friend'] = features[:, feature_list.index('friend')]
+# Plot all the data as lines
+plt.plot(true_data['date'], true_data['actual'], 'b-', label  = 'actual', alpha = 1.0)
+plt.plot(true_data['date'], true_data['temp_1'], 'y-', label  = 'temp_1', alpha = 1.0)
+plt.plot(true_data['date'], true_data['average'], 'k-', label = 'average', alpha = 0.8)
+plt.plot(true_data['date'], true_data['friend'], 'r-', label = 'friend', alpha = 0.3)
+# Formatting plot
+plt.legend() 
+plt.xticks(rotation = '60')
+# Lables and title
+plt.xlabel('Date') 
+plt.ylabel('Maximum Temperature (F)') 
+plt.title('Actual Max Temp and Variables')
 
 plt.show()

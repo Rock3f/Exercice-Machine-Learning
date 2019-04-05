@@ -12,16 +12,23 @@ warnings.warn = warn
 
 
 def generateOvOClassifier(classes):
+    """
+        Génération du classifier 0V0
+    """
     o_vs_o_classifiers = {}
     for elem in itertools.combinations(classes,2):
         class0 = [x_train[index] for index, value in enumerate(y_train) if value == elem[0]]
         class1 = [x_train[index] for index, value in enumerate(y_train) if value == elem[1]]
         value = [0] * len(class0) + [1] * len(class1)
         learn = class0 + class1
+        #Apprentissage du modèle
         o_vs_o_classifiers['%d_%d'%elem] = LogisticRegression(solver='lbfgs').fit(learn, value)
     return o_vs_o_classifiers
 
 def predictOVO(test_values, o_vs_o_classifiers):
+    """
+        Prédiction du classifieur 0V0
+    """
     results = {}
     i=0
     for elem in test_values:
@@ -50,11 +57,11 @@ if __name__ == "__main__":
     data = digits['data']
     target  = digits['target']
     classes = set(target)
-    #Splitting the data to get train and test sets
+    #Séparation des données entre jeu d'entraînement et de test
     x_train, x_test, y_train, y_test = train_test_split(data, target, test_size=0.2)
-    #Create the O v O classifiers
+    #Creation du classifieur O v O
     o_vs_o_classifiers = generateOvOClassifier(classes)
-    # We generate an array containing tuples (images,value)
+    # Nous générons un tableau contenant des tuples (images,value)
     test_values = [(x_test[index],value) for index, value in enumerate(y_test)]
-    # Launch the loop to predict elem in test values 
+    # Lancement de la boucle de prediction des éléments sur le jeu de test
     predictOVO(test_values, o_vs_o_classifiers)

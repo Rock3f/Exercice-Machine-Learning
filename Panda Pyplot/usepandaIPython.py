@@ -3,14 +3,12 @@ from functools import reduce
 import matplotlib.pyplot as plt
 import numpy as np
 
-#Recuperation du fichier csv
-data_frame = pd.read_csv("../Consumo_cerveja.csv")
-
-#Suppression des valeurs NaN
-data_frame = data_frame.dropna()
-
 #Affichage des consommations moyennes de bieres
 def AffichageDesConsommationsMoyennes(df) : 
+    """
+        Affichages des différentes consommations de bières
+    """
+
     #Consommation de biere sur le weekend
     weekendconsumption_liters = reduce(lambda x,y: x+y, GetConsommationDeBiereWeekend(df))
     weekendconsumption_liters_mid = weekendconsumption_liters / len(GetConsommationDeBiereWeekend(df))
@@ -33,6 +31,9 @@ def AffichageDesConsommationsMoyennes(df) :
 
 #Affichage des graphiques
 def AffichageDesGraphs(df):
+    """
+        Affichage des différents graphiques
+    """
     #TEMPERATURE
     #Mise en place des axes d'analyses + de l'ensemble des points
     plt.figure(1)
@@ -69,6 +70,9 @@ def AffichageDesGraphs(df):
 
 #Boite à moustache
 def BoiteAMoustache(numberFigure, data, title, data1 = None, title1 = None, isVertical = False) : 
+    """
+        Affichage d'une boite à moustache suivant différentes données
+    """
     plt.figure(numberFigure)
 
     if data1 is None :
@@ -88,19 +92,46 @@ def BoiteAMoustache(numberFigure, data, title, data1 = None, title1 = None, isVe
 
 #Getter
 def GetConsommationDeBiereWeekend(df) : 
+    """
+        Obtention de la consommation de bière le weekend
+    """
     return df.loc[df['WeekEnd']==1]['Beer']
 
 def GetConsommationDeBiereSemaine(df) : 
+    """
+        Obtention de la consommation de bière en semaine
+    """
     return df.loc[df['WeekEnd']==0]['Beer']
 
 def GetConsommationDeBierePluie(df) : 
+    """
+        Obtention de la consommation de bière par temps de pluie
+    """
     return df.loc[df['Rain'].astype(float) > 0]['Beer']
 
 def GetConsommationDeBiereSoleil(df) :
+    """
+        Obtention de la consommation de bière par temps ensolleilé
+    """
     return df.loc[df['Rain'].astype(float) == 0]['Beer']
 
-AffichageDesConsommationsMoyennes(data_frame)
-AffichageDesGraphs(data_frame)
-BoiteAMoustache(2, data_frame['Beer'], "Boite à Moustache de la consommation de bière")
-BoiteAMoustache(3, GetConsommationDeBiereSoleil(data_frame), "Boite à Moustache de la consommation de bière par temps ensoleillé", GetConsommationDeBierePluie(data_frame), "Boite à Moustache de la consommation de bière par temps de pluie")
-BoiteAMoustache(4, GetConsommationDeBiereWeekend(data_frame), "Boite à Moustache de la consommation de bière sur le weekend", GetConsommationDeBiereSemaine(data_frame), "Boite à Moustache de la consommation de bière sur la semaine")
+def main():
+    """
+        Affichage de la consommation moyenne de bière, et des différentes boites à moustaches
+    """
+    #Recuperation du fichier csv
+    data_frame = pd.read_csv("../Consumo_cerveja.csv")
+
+    #Suppression des valeurs NaN
+    data_frame = data_frame.dropna()
+
+    #Affichage des différentes consommations
+    AffichageDesConsommationsMoyennes(data_frame)
+    #Affichage des graphiques et des Boites à Moustache
+    AffichageDesGraphs(data_frame)
+    BoiteAMoustache(2, data_frame['Beer'], "Boite à Moustache de la consommation de bière")
+    BoiteAMoustache(3, GetConsommationDeBiereSoleil(data_frame), "Boite à Moustache de la consommation de bière par temps ensoleillé", GetConsommationDeBierePluie(data_frame), "Boite à Moustache de la consommation de bière par temps de pluie")
+    BoiteAMoustache(4, GetConsommationDeBiereWeekend(data_frame), "Boite à Moustache de la consommation de bière sur le weekend", GetConsommationDeBiereSemaine(data_frame), "Boite à Moustache de la consommation de bière sur la semaine")
+
+if __name__ == "__main__":
+    main()

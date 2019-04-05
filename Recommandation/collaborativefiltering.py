@@ -7,8 +7,10 @@ from surprise import accuracy
 from surprise.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-#Renvoie le top n des recommendation pour chaque utilisateur du dataset
 def get_top_n(predictions, n=10):
+    """
+        Renvoie le top n des recommendation pour chaque utilisateur du dataset
+    """
     # Réaliser un mapage des prédictions sur chaque utilisateurs 
     top_n = defaultdict(list)
     for uid, iid, true_r, est, _ in predictions:
@@ -22,6 +24,9 @@ def get_top_n(predictions, n=10):
     return top_n
 
 def displayTop10(data) :
+    """
+        Affichage du top 10 des films à regarder pour chaque utilisateur
+    """
     trainset = data.build_full_trainset()
     algo = SVD()
     algo.fit(trainset)
@@ -38,8 +43,11 @@ def displayTop10(data) :
 
 
 def DisplayGraphDelta(data) : 
+    """
+        Affichage du delta entre prédiction et réalité
+    """
     # Créer un jeu de test et de train ( 25%, 75%)
-    trainset, testset = train_test_split(data, test_size=.15)
+    trainset, testset = train_test_split(data, test_size=.25)
 
     algo = KNNWithMeans()
 
@@ -64,7 +72,14 @@ def DisplayGraphDelta(data) :
     plt.hist(result, 100)
     plt.show()
 
-# Premier entrainement de l'aglo SVD sur le datasers
-data = Dataset.load_builtin('ml-100k')
-DisplayGraphDelta(data)
-displayTop10(data)
+
+def main():
+    """
+    Premier entrainement de l'aglo SVD sur le datasets
+    """
+    data = Dataset.load_builtin('ml-100k')
+    DisplayGraphDelta(data)
+    displayTop10(data)
+
+if __name__ == "__main__":
+    main()

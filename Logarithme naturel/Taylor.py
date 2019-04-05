@@ -3,21 +3,19 @@ import numpy as np
 from sympy.functions import sin,cos,exp
 import matplotlib.pyplot as plt
 
-plt.style.use("ggplot")
-
-# Definition de la variable et de la fonction à trouver
-x = sy.Symbol('x')
-f = exp(x)
-
-# fonction Factoriel
 def factorial(n):
+    """
+        Calcul du factoriel
+    """
     if n <= 0:
         return 1
     else:
         return n*factorial(n-1)
 
-# Taylor approximation at x0 of the function 'function'
 def taylor(function,x0,n):
+    """
+        Taylor approximation at x0 of the function 'function'
+    """
     i = 0
     p = 0
     while i <= n:
@@ -27,6 +25,9 @@ def taylor(function,x0,n):
 
 # Plot results
 def plot():
+    """
+        Affichage des résultats
+    """
     x_lims = [-5,5]
     x1 = np.linspace(x_lims[0],x_lims[1],800)
     y1 = []
@@ -49,4 +50,17 @@ def plot():
     plt.title('Approximation de la série de Taylor')
     plt.show()
 
-plot()
+
+def main():
+    """
+        Définition de l'ensemble des variables pour réaliser une approximation
+    """
+    plt.style.use("ggplot")
+
+    # Definition de la variable et de la fonction à trouver
+    x = sy.Symbol('x')
+    f = exp(x)
+    plot()
+
+if __name__ == "__main__":
+    main()
