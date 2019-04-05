@@ -10,11 +10,12 @@ reg= linearRegressor.fit(x, y)
 
 #Prédiction de la valeur à J+1
 print("Valeur a J+1 :")
-print(linearRegressor.predict([[19]]))
+print(linearRegressor.predict([[18]]))
 
 #Affichage de la régression linéaire et des résidus
 plt.subplot(211)
 plt.scatter(x, y, color = 'red')
+plt.scatter(19, linearRegressor.predict([[19]]), color = "green")
 plt.plot(x, linearRegressor.predict(x), color = 'blue')
 plt.title("Regression lineaire")
 
