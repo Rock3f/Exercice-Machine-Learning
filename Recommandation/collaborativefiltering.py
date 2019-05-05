@@ -77,6 +77,13 @@ def main():
     """
     Premier entrainement de l'aglo SVD sur le datasets
     """
+    print("Algorithme de filtre collaboratif)
+    print("Cet algorithme réalise 2 actions différentes : ")
+    print("- Affichage du delta entre la prédiction et la réalité de ce type de filtre")
+    print("- Recommandation des 10 films à voir pour chaque utilisateurs")
+    input("Appuyer sur touche pour continuer...")
+
+    
     data = Dataset.load_builtin('ml-100k')
     DisplayGraphDelta(data)
     displayTop10(data)

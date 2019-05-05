@@ -54,7 +54,7 @@ def predictOVR(test_values, o_vs_r_classifiers):
             correct +=1
         #print("Predicted %s and value was %s" %(predicted,value))
     prct = (correct/len(results)*100)
-    print(f"The One versus Rest score a {prct} % precision score ")
+    print("The One versus Rest score a %f per cent precision score " %prct)
 
 def generateOvOClassifier(classes, x_train,y_train):
     o_vs_o_classifiers = {}
@@ -89,9 +89,8 @@ def predictOVO(test_values, o_vs_o_classifiers):
         value = test_values[key][1]
         if int(predicted) == value:
             correct += 1
-        #print("Predicted %s and value was %s" %(predicted,value))
     prct = (correct/len(results)*100)
-    print(f"The One versus One score a {prct} % precision score ")
+    print("The One versus One score a %f per centprecision score ", prct)
 
 def generateForetClassifier(classes, x_train,y_train):
     return RandomForestClassifier(n_estimators=10).fit(x_train, y_train)
@@ -104,7 +103,7 @@ def predictForet(test_values, foret_classifiers):
             correct +=1
 
     prct = (correct/len(test_values)*100)
-    print(f"Le Forest score a {prct} % de precision")
+    print("Le Forest score a %f percent de precision" %prct)
 
 
 def generateSVMClassifier(classes, x_train,y_train) : 
@@ -118,7 +117,7 @@ def predictSVM(test_values, SVM_classifiers):
             correct +=1
 
     prct = (correct/len(test_values)*100)
-    print(f"Le SVM score a {prct} % de precision")
+    print("Le SVM score a %f percent de precision" %prct)
 
 def classifieur0v0(classes, test_values,x_train,y_train):
     startime0 = time.time()
@@ -199,6 +198,11 @@ def classifieurSVM(classes, test_values,x_train,y_train) :
 
 def main() :
     rcv1 = fetch_covtype()
+
+    print("Comparaison des différents temps de traitement des différents algorithmes")
+    print("Le temps de calcul de chaque méthode est compté via le timestamp à l'éxecution")
+    print("une fois, le temps d'éxécution de chaque méthode calculé, il sera affiché ci-dessous")
+    input("Appuyer sur touche pour continuer...")
 
     data = rcv1.data
     target  = rcv1.target

@@ -56,6 +56,9 @@ def main():
         Définition de l'ensemble des variables pour réaliser une approximation
     """
     plt.style.use("ggplot")
+    
+    print("Calcul de l'approximation de Taylor")
+    input("Appuyer sur touche pour continuer...")
 
     # Definition de la variable et de la fonction à trouver
     x = sy.Symbol('x')

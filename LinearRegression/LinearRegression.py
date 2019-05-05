@@ -48,10 +48,14 @@ def main():
     t1 = 1
     array = [[1, 7], [2, 3], [3, 1]]
     i = 1
-    lastCost = 1
+    lastCost = 1    
+
+    print("Calcul de la régression linéaire via le calcul d'hypothèse")
+    print("Les différentes valeurs affichées correspondant à Teta0, Teta1 et le coût à chaque itération de la formule mathématiques")
+    input("Appuyer sur touche pour continuer...")
 
     while i < 200000 :
-        print("Boucle %f" %i)
+        print("Itération numéro %i" %i)
         #t0inter et t1inter sont des variables provisoires pour stockées les nouvelles valeurs de theta
         t0inter = t0 - (1/i) / len(array) * AllSumHyp(array,t0,t1)
         t1inter = t1 - (1/i) / len(array) * AllSumHyp(array,t0,t1, True)
