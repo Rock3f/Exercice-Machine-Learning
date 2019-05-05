@@ -14,4 +14,5 @@ hello = tf.constant('Hello, TensorFlow!')
 sess = tf.Session()
 
 # Run graph
+print()
 print(sess.run(hello))

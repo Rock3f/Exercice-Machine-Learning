@@ -50,7 +50,7 @@ def predictOVO(test_values, o_vs_o_classifiers):
             correct += 1
         print("Predicted %s and value was %s" %(predicted,value))
     prct = (correct/len(results)*100)
-    print(f"The One versus One score a {prct} % precision score ")
+    print("The One versus One score a %f precision score " %prct)
 
 if __name__ == "__main__":
     digits = datasets.load_digits()
